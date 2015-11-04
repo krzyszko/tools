@@ -42,6 +42,6 @@
     :put ("Dyndns Update Result: ".$result)
 } else={
     :log info ("UpdateDynDNS: No dyndns update needed")
-
+}
 
 
