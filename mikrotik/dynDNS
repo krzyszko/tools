@@ -6,6 +6,7 @@
 :local username "user"
 :local password "password"
 :local hostname "host"
+:local url \"https://nic.changeip.com/nic/update\?u=\$username&p=\$password&cmd=update&hostname=\$hostname\"
 
 :global dyndnsForce
 
@@ -34,10 +35,10 @@
 # Determine if dyndns update is needed
 # more dyndns updater request details available at http://www.dyndns.com/developers/specs/syntax.html
 :if (($currentIP != $dnsIP) || ($dyndnsForce = true)) do={
-    :set dyndnsForce false
-    /tool fetch mode=https address="www.changeip.com" src-path="/update.asp?u=$username&p=$password&cmd=update&hostname=$hostname" dst-path="/dyndns.txt"
-    :local result [/file get dyndns.txt contents]
     :log info ("UpdateDynDNS: Dyndns update needed")
+    :set dyndnsForce false
+    /tool fetch url=\"\$url\" dst-path=\"/dyndns.txt\"
+    :local result [/file get dyndns.txt contents]
     :log info ("UpdateDynDNS: Dyndns Update Result: ".$result)
     :put ("Dyndns Update Result: ".$result)
 } else={
